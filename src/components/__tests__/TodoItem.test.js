@@ -27,28 +27,34 @@ describe('TodoItem Component', (Component = TodoItem) => {
         destroy: jest.fn(),
       },
       view: {
-        todoBeingEdited: {}
+        todoBeingEdited: null
       }
     }
     mountedComponent = undefined
   })
 
   describe('rendering', () => {
-    it('should render correctly', () => {
-      assert.isType({type: TodoItem})
-      assert.isPresent({selector: 'li'})
-      assert.isPresent({selector: '.view'})
-      assert.isPresent({selector: '.toggle'})
-      assert.isPresent({selector: 'label'})
-      assert.isPresent({selector: 'button'})
-      assert.isPresent({selector: '.edit'})
+    describe('when in view mode', () => {
+      it('should render correctly', () => {
+        assert.isType({type: TodoItem})
+        assert.isPresent({selector: 'li'})
+        assert.isPresent({selector: '.view'})
+        assert.isPresent({selector: '.toggle'})
+        assert.isPresent({selector: 'label'})
+        assert.isPresent({selector: 'button'})
+      })
+    })
+
+    describe('when in edit mode', () => {
+      it('should render correctly', () => {
+        assert.simulateEvent({selector: 'label', simulateArgs: ['doubleClick']})
+        assert.isType({type: TodoItem})
+        assert.isPresent({selector: 'li'})
+        assert.isPresent({selector: '.edit'})
+      })
     })
 
     describe('when todo is not double-clicked', () => {
-      beforeEach(() => {
-        props.todo = {id: 0, text: 'fun', completed: true}
-      })
-
       it('should render without className `editing`', () => {
         assert.hasChildWithoutClass({
           selector: 'li',
@@ -58,10 +64,6 @@ describe('TodoItem Component', (Component = TodoItem) => {
     })
 
     describe('when todo is double-clicked', () => {
-      beforeEach(() => {
-        props.todo = {id: 0, text: 'fun', completed: true}
-      })
-
       it('should render with className `editing`', () => {
         assert.simulateEvent({selector: 'label', simulateArgs: ['doubleClick']})
         assert.hasChildWithClass({
@@ -73,7 +75,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
 
     describe('when todo is complete', () => {
       beforeEach(() => {
-        props.todo = {id: 0, text: 'fun', completed: true}
+        props.todo.completed = true
       })
 
       it('should render li with class "completed"', () => {
@@ -82,9 +84,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
     })
   })
 
-
   describe('callbacks', () => {
-
     describe('when in edit mode', () => {
       describe('when onBlur and text.length > 0', () => {
         it('should call setTitle callback and exit edit mode', () => {
@@ -108,9 +108,9 @@ describe('TodoItem Component', (Component = TodoItem) => {
         })
       })
 
-
       describe('when onChange', () => {
         it('should call handleChange method', () => {
+          assert.simulateEvent({selector: 'label', simulateArgs: ['doubleclick']})
           assert.simulateEvent({
             selector: '.edit', 
             simulateArgs: [
@@ -125,21 +125,24 @@ describe('TodoItem Component', (Component = TodoItem) => {
 
       describe('when onKeyDown with ENTER key', () => {
         it('should call handleKeyDown and handleSubmit methods', () => {
-          const handleSubmitMethod = assert.createMockMethod({methodName: 'handleSubmit'})
+          const ENTER_KEY = 13
+          assert.simulateEvent({selector: 'label', simulateArgs: ['doubleclick']})
+          // const handleSubmitMethod = assert.createMockMethod({methodName: 'handleSubmit'})
           assert.simulateEvent({
             selector: '.edit', 
             simulateArgs: [
               'keydown', 
-              {which: 13, target: {value: 'xxx'}}
+              {which: ENTER_KEY, target: {value: 'xxx'}}
             ]
           })
-          expect(handleSubmitMethod).toHaveBeenCalled()
+          expect(props.view.todoBeingEdited).toBe(null)
         })
       })
 
       describe('when onKeyDown with ESC key', () => {
         it('should call handleChange method', () => {
           const ESCAPE_KEY = 27
+          assert.simulateEvent({selector: 'label', simulateArgs: ['doubleclick']})
           assert.simulateEvent({
             selector: '.edit', 
             simulateArgs: [
@@ -151,7 +154,25 @@ describe('TodoItem Component', (Component = TodoItem) => {
           expect(instance.editText).toBe(props.todo.title)
         })
       })
-    })  
+
+      describe('when onKeyDown without ESC or ENTER key', () => {
+        it('should call handleChange method but not execute anything', () => {
+          const ESCAPE_KEY = 27
+          assert.simulateEvent({selector: 'label', simulateArgs: ['doubleclick']})
+          const handleSubmitMethod = assert.createMockMethod({methodName: 'handleSubmit'})
+          assert.simulateEvent({
+            selector: '.edit', 
+            simulateArgs: [
+              'keydown', 
+              {which: 44, target: {value: 'xxx'}}
+            ]
+          })
+          const instance = getComponent().instance()
+          expect(instance.editText).toBe('use redux')
+          expect(handleSubmitMethod).not.toHaveBeenCalled()
+        })
+      })
+    })
 
     describe('when in view mode', () => {
       describe('when clicking toggle', () => {
@@ -176,7 +197,6 @@ describe('TodoItem Component', (Component = TodoItem) => {
       })
     })
   })
-
 
   describe('props passed to components', () => {
     describe('toggle checkbox', () => {
@@ -226,7 +246,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
     })
 
     describe('edit field', () => {
-      xit('should pass `todo.title` to value prop', () => {
+      it('should pass `todo.title` to value prop', () => {
         assert.simulateEvent({selector: 'label', simulateArgs: ['doubleclick']})
         assert.hasChildWithProp({
           selector: '.edit', 
@@ -236,6 +256,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
       })
 
       it('should pass `handleSubmit` method to onBlur prop', () => {
+        assert.simulateEvent({selector: 'label', simulateArgs: ['doubleclick']})
         assert.hasChildWithProp({
           selector: '.edit', 
           prop: 'onBlur', 
@@ -244,6 +265,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
       })
 
       it('should pass `handleChange` method to onChange prop', () => {
+        assert.simulateEvent({selector: 'label', simulateArgs: ['doubleclick']})
         assert.hasChildWithProp({
           selector: '.edit', 
           prop: 'onChange', 
@@ -252,6 +274,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
       })
 
       it('should pass `handleKeyDown` method to onKeyDown prop', () => {
+        assert.simulateEvent({selector: 'label', simulateArgs: ['doubleclick']})
         assert.hasChildWithProp({
           selector: '.edit', 
           prop: 'onKeyDown', 

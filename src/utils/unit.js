@@ -96,6 +96,7 @@ export class Assert {
 
   simulateEvent = ({selector, simulateArgs}) => {
     this.getComponent().find(selector).simulate(...simulateArgs)
+    this.getComponent().instance().forceUpdate()
   }
 
   createMockMethod = ({methodName}) => {

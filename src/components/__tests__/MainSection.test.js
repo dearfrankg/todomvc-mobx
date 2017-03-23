@@ -18,16 +18,25 @@ describe('MainSection Component', (Component = MainSection) => {
 
   const assert = Assert.create(getComponent)
 
+  const sampleTodo = {
+    id: 0,
+    title: 'sample',
+    completed: false,
+    toggle: jest.fn(),
+    setTitle: jest.fn(),
+    destroy: jest.fn(),
+  }
+
   beforeEach(() => {
     props = {
       todo: {
         todos: [
-          { text: 'Use Redux', completed: false, id: 0 }, 
-          { text: 'Run the tests', completed: true, id: 1 }
+          { ...sampleTodo, id: 0, title: 'Use Redux'}, 
+          { ...sampleTodo, id: 1, title: 'Run the tests', completed: true}, 
         ],
         visibleTodos: [
-            { text: 'Use Redux', completed: false, id: 0 }, 
-            { text: 'Run the tests', completed: true, id: 1 }
+          { ...sampleTodo, id: 0, title: 'Use Redux'}, 
+          { ...sampleTodo, id: 1, title: 'Run the tests', completed: true}, 
         ],
         addTodo: jest.fn(),
         toggleAll: jest.fn(),
@@ -46,7 +55,6 @@ describe('MainSection Component', (Component = MainSection) => {
     }
     mountedComponent = undefined
   })
-
 
   describe('rendering', () => {
     it('should render correctly', () => {
@@ -119,10 +127,9 @@ describe('MainSection Component', (Component = MainSection) => {
     })
   })
 
-
   describe('props passed to components', () => {
     describe('toggle-all', () => {
-      it('should pass `toggleAll` to onChange prop', () => {
+      it('should pass to onChange prop: `toggleAll`', () => {
         assert.hasChildWithPropAsAnonymousFn({
           selector: '.toggle-all',
           prop: 'onChange'
@@ -134,7 +141,7 @@ describe('MainSection Component', (Component = MainSection) => {
           props.todo.activeTodoCount = 0
         })
 
-        it('should pass `true` to checked prop', () => {
+        it('should pass to checked prop: `true` ', () => {
           assert.hasChildWithProp({
             selector: '.toggle-all',
             prop: 'checked',
@@ -148,7 +155,7 @@ describe('MainSection Component', (Component = MainSection) => {
           props.todo.activeTodoCount = 3
         })
 
-        it('should pass `true` to checked prop', () => {
+        it('should pass to checked prop: `false`', () => {
           assert.hasChildWithProp({
             selector: '.toggle-all',
             prop: 'checked',
@@ -156,16 +163,17 @@ describe('MainSection Component', (Component = MainSection) => {
           })
         })
       })
+    })
     
-    describe('todo-list TodoItem', () => {
-      it('should pass a todo as a prop', () => {
+    describe('TodoItem of todo-list', () => {
+      it('should pass to todo prop: `todo`', () => {
         const todoItem = getComponent().find('.todo-list').find(TodoItem).at(0)
         const actual = todoItem.props().todo
         const expected = props.todo.visibleTodos[0]
         expect(actual).toBe(expected)
       })
 
-      it('should pass view as a prop', () => {
+      it('should pass to view prop: `view`', () => {
         const todoItem = getComponent().find('.todo-list').find(TodoItem).at(0)
         const actual = todoItem.props().view
         const expected = props.view
@@ -173,40 +181,4 @@ describe('MainSection Component', (Component = MainSection) => {
       })
     })
   })
-})
-
-
-
-//     describe('footer', () => {
-//       it('should pass calculated completedCount as a prop', () => {
-//         const actual = getComponent().find(Footer).props().completedCount
-//         const expected = 1
-//         expect(actual).toBe(expected)
-//       })
-
-//       it('should pass calculated activeCount as a prop', () => {
-//         const actual = getComponent().find(Footer).props().activeCount
-//         const expected = 1
-//         expect(actual).toBe(expected)
-//       })
-
-//       it('should pass state.filter to filter prop', () => {
-//         const actual = getComponent().instance().state.filter
-//         const expected = SHOW_ALL
-//         expect(actual).toBe(expected)
-//       })
-
-//       it('should pass handleSetFilter method to handleSetFilter prop', () => {
-//         const actual = getComponent().find(Footer).props().handleSetFilter
-//         const expected = getComponent().instance().handleSetFilter
-//         expect(actual).toBe(expected)
-//       })
-
-//       it('should pass actions.clearCompleted to clearCompleted prop', () => {
-//         const actual = getComponent().find(Footer).props().clearCompleted
-//         const expected = props.actions.clearCompleted
-//         expect(actual).toBe(expected)
-//       })
-//     })
-//   })
 })

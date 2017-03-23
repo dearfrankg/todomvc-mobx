@@ -14,34 +14,47 @@ export default class TodoItem extends React.Component {
 
   @observable editText = ''
 
+  renderEditMode = () => (
+    <input
+      type='text'
+      ref='editField'
+      className='edit'
+      value={this.editText}
+      onBlur={this.handleSubmit}
+      onChange={this.handleChange}
+      onKeyDown={this.handleKeyDown}
+    />
+  )
+  renderViewMode = (todo) => (
+    <div className='view'>
+      <input
+        type='checkbox'
+        className='toggle'
+        checked={todo.completed}
+        onChange={todo.toggle}
+      />
+      <label onDoubleClick={this.handleDoubleClick}>
+        {todo.title}
+      </label>
+      <button className='destroy' onClick={todo.destroy} />
+    </div>
+  )
+  
   render() {
     const {todo, view} = this.props
+    const isEditing = view.todoBeingEdited === todo
+
     return (
       <li className={[
         todo.completed ? 'completed' : '',
-        (todo === view.todoBeingEdited) ? 'editing' : ''
+        isEditing ? 'editing' : ''
       ].join(' ')}>
-        <div className='view'>
-          <input
-            type='checkbox'
-            className='toggle'
-            checked={todo.completed}
-            onChange={todo.toggle}
-          />
-          <label onDoubleClick={this.handleDoubleClick}>
-            {todo.title}
-          </label>
-          <button className='destroy' onClick={todo.destroy} />
-        </div>
-        <input
-          type='text'
-          ref='editField'
-          className='edit'
-          value={this.editText}
-          onBlur={this.handleSubmit}
-          onChange={this.handleChange}
-          onKeyDown={this.handleKeyDown}
-        />
+      
+        { isEditing 
+          ? this.renderEditMode()
+          : this.renderViewMode(todo)
+        }
+
       </li>
     )
   }
