@@ -1,6 +1,6 @@
 {
   "name": "todomvc-mobx",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Describe todomvc-mobx here",
   "private": true,
   "scripts": {
@@ -36,7 +36,7 @@
   "jest": {
     "coveragePathIgnorePatterns": [
       "./src/utils/unit.js"
-    ],    
+    ],
     "transform": {
       "^.+\\.js$": "<rootDir>/jest.transform.js"
     }
