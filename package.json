@@ -20,7 +20,7 @@
     "mobx-react-devtools": "^4.2.11",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "todomvc-app-css": "^2.1.0"
+    "todomvc-app-css": "2.0.6"
   },
   "devDependencies": {
     "babel-jest": "^19.0.0",

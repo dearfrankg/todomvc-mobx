@@ -15,22 +15,24 @@ export default class MainSection extends React.Component {
       return null
     }
 
-    return <section className="main">
-      <input
-        type="checkbox"
-        className="toggle-all"
-        checked={todo.activeTodoCount === 0}
-        onChange={(e) => todo.toggleAll(e.target.checked)}
-      />
-      <ul className="todo-list">
-        {todo.visibleTodos.map(todo =>
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            view={view}
-          />
-        )}
-      </ul>
-    </section>
+    return (
+      <section className="main">
+        <input
+          type="checkbox"
+          className="toggle-all"
+          checked={todo.activeTodoCount === 0}
+          onChange={(e) => todo.toggleAll(e.target.checked)}
+        />
+        <ul className="todo-list">
+          {todo.visibleTodos.map(todo =>
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              view={view}
+            />
+          )}
+        </ul>
+      </section>
+    )
   }
 }
