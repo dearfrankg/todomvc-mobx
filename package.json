@@ -7,18 +7,38 @@
     "build": "nwb build-react-app",
     "clean": "nwb clean-app",
     "start": "nwb serve-react-app",
-    "test": "nwb test-react",
-    "test:coverage": "nwb test-react --coverage",
-    "test:watch": "nwb test-react --server"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "coverage": "jest --coverage",
+    "coverage:watch": "jest --coverage --watch"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
+    "director": "^1.2.8",
+    "mobx": "^3.1.7",
+    "mobx-react": "^4.1.3",
+    "mobx-react-devtools": "^4.2.11",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "todomvc-app-css": "^2.1.0"
   },
   "devDependencies": {
-    "nwb": "0.15.x"
+    "babel-jest": "^19.0.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "enzyme": "^2.7.1",
+    "jest": "^19.0.2",
+    "nwb": "0.15.x",
+    "react-addons-test-utils": "^15.4.2"
   },
   "author": "",
   "license": "MIT",
-  "repository": ""
+  "repository": "",
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "./src/utils/unit.js"
+    ],    
+    "transform": {
+      "^.+\\.js$": "<rootDir>/jest.transform.js"
+    }
+  }
 }
