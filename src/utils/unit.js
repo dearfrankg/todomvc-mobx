@@ -106,7 +106,18 @@ export class Assert {
     return mockedMethod
   }
 
+  setRef = ({refName, value}) => {
+    this.getComponent().ref(refName).get(0).value = value
+  }
 
+  getRef = ({refName, value}) => {
+    return this.getComponent().ref(refName).get(0).value
+  }
 
+  refHasValue = ({refName, value}) => {
+    const actual = this.getComponent().ref(refName).get(0).value
+    const expected = value
+    expect(actual).toBe(expected)
+  }
 
 }
