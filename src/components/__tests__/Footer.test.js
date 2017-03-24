@@ -158,7 +158,7 @@ describe('Footer Component', (Component = Footer) => {
         beforeEach(() => {
           props.view.todoFilter = SHOW_ACTIVE
         })
-        it('should pass "selected" to className prop', () => {
+        it('should set className prop to `selected`', () => {
           const actual = getComponent().find('a').at(1).props().className
           const expected = 'selected'
           expect(actual).toBe(expected)
@@ -170,7 +170,7 @@ describe('Footer Component', (Component = Footer) => {
       beforeEach(() => {
         props.todo.clearCompleted = jest.fn()
       })
-      it('should pass todo.clearCompleted to onClick prop', () => {
+      it('should set onClick prop to `todo.clearCompleted`', () => {
         assert.hasChildWithProp({
           selector: '.clear-completed', 
           prop: 'onClick', 

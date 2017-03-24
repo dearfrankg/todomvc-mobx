@@ -175,21 +175,21 @@ describe('TodoItem Component', (Component = TodoItem) => {
     })
 
     describe('when in view mode', () => {
-      describe('when clicking toggle', () => {
+      describe('when clicking toggle checkbox', () => {
         it('should call toggle callback', () => {
           assert.simulateEvent({selector: '.toggle', simulateArgs: ['change']})
           expect(props.todo.toggle).toHaveBeenCalled()
         })
       })
 
-      describe('when label is doubleclicked', () => {
+      describe('when doubleclicking label', () => {
         it('should enter edit mode', () => {
           assert.simulateEvent({selector: 'label', simulateArgs: ['doubleclick']})
           expect(props.todo).toBe(props.view.todoBeingEdited)
         })
       })
 
-      describe('when delete button is clicked', () => {
+      describe('when clicking delete button', () => {
         it('should call deleteTodo', () => {
           assert.simulateEvent({selector: '.destroy', simulateArgs: ['click']})
           expect(props.todo.destroy).toHaveBeenCalled()
@@ -200,7 +200,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
 
   describe('props passed to components', () => {
     describe('toggle checkbox', () => {
-      it('should pass `checkbox` to type prop', () => {
+      it('should set type prop to `checkbox`', () => {
         assert.hasChildWithProp({
           selector: '.toggle', 
           prop: 'type', 
@@ -208,7 +208,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
         })
       })
 
-      it('should pass `todo.completed` to checked prop', () => {
+      it('should set checked prop to `todo.completed`', () => {
         assert.hasChildWithProp({
           selector: '.toggle', 
           prop: 'checked', 
@@ -216,7 +216,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
         })
       })
 
-      it('should pass `todo.toggle` to onChange prop', () => {
+      it('should set onChange prop to `todo.toggle`', () => {
         assert.hasChildWithProp({
           selector: '.toggle', 
           prop: 'onChange', 
@@ -226,7 +226,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
     })
 
     describe('label', () => {
-      it('should pass `handleDoubleClick` method to onDoubleClick prop', () => {
+      it('should set onDoubleClick prop to `handleDoubleClick method`', () => {
         assert.hasChildWithProp({
           selector: 'label', 
           prop: 'onDoubleClick', 
@@ -236,7 +236,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
     })
 
     describe('destroy button', () => {
-      it('should pass `destroy` callback to onClick prop', () => {
+      it('should set onClick prop to `destroy`', () => {
         assert.hasChildWithProp({
           selector: '.destroy', 
           prop: 'onClick', 
@@ -246,7 +246,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
     })
 
     describe('edit field', () => {
-      it('should pass `todo.title` to value prop', () => {
+      it('should set value prop to `todo.title`', () => {
         assert.simulateEvent({selector: 'label', simulateArgs: ['doubleclick']})
         assert.hasChildWithProp({
           selector: '.edit', 
@@ -255,7 +255,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
         })
       })
 
-      it('should pass `handleSubmit` method to onBlur prop', () => {
+      it('should set onBlur prop to `handleSubmit method`', () => {
         assert.simulateEvent({selector: 'label', simulateArgs: ['doubleclick']})
         assert.hasChildWithProp({
           selector: '.edit', 
@@ -264,7 +264,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
         })
       })
 
-      it('should pass `handleChange` method to onChange prop', () => {
+      it('should set onChange prop to `handleChange method`', () => {
         assert.simulateEvent({selector: 'label', simulateArgs: ['doubleclick']})
         assert.hasChildWithProp({
           selector: '.edit', 
@@ -273,7 +273,7 @@ describe('TodoItem Component', (Component = TodoItem) => {
         })
       })
 
-      it('should pass `handleKeyDown` method to onKeyDown prop', () => {
+      it('should set onKeyDown prop to `handleKeyDown method`', () => {
         assert.simulateEvent({selector: 'label', simulateArgs: ['doubleclick']})
         assert.hasChildWithProp({
           selector: '.edit', 

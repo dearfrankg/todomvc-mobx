@@ -129,7 +129,7 @@ describe('MainSection Component', (Component = MainSection) => {
 
   describe('props passed to components', () => {
     describe('toggle-all', () => {
-      it('should pass to onChange prop: `toggleAll`', () => {
+      it('should set onChange prop to `toggleAll`', () => {
         assert.hasChildWithPropAsAnonymousFn({
           selector: '.toggle-all',
           prop: 'onChange'
@@ -141,7 +141,7 @@ describe('MainSection Component', (Component = MainSection) => {
           props.todo.activeTodoCount = 0
         })
 
-        it('should pass to checked prop: `true` ', () => {
+        it('should set checked prop to `true` ', () => {
           assert.hasChildWithProp({
             selector: '.toggle-all',
             prop: 'checked',
@@ -155,7 +155,7 @@ describe('MainSection Component', (Component = MainSection) => {
           props.todo.activeTodoCount = 3
         })
 
-        it('should pass to checked prop: `false`', () => {
+        it('should set checked prop to `false`', () => {
           assert.hasChildWithProp({
             selector: '.toggle-all',
             prop: 'checked',
@@ -166,14 +166,14 @@ describe('MainSection Component', (Component = MainSection) => {
     })
     
     describe('TodoItem of todo-list', () => {
-      it('should pass to todo prop: `todo`', () => {
+      it('should set todo prop to `todo`', () => {
         const todoItem = getComponent().find('.todo-list').find(TodoItem).at(0)
         const actual = todoItem.props().todo
         const expected = props.todo.visibleTodos[0]
         expect(actual).toBe(expected)
       })
 
-      it('should pass to view prop: `view`', () => {
+      it('should set view prop to `view`', () => {
         const todoItem = getComponent().find('.todo-list').find(TodoItem).at(0)
         const actual = todoItem.props().view
         const expected = props.view

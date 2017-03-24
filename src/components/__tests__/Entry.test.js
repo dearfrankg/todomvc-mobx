@@ -26,11 +26,25 @@ describe('Entry Component', (Component = Entry) => {
     it('should render correctly', () => {
       assert.hasChildOfType({selector: 'input', type: 'input'})
     })
+    describe('when onKeyDown event with ENTER key', () => {
+      it('should clear input component value', () => {
+        assert.setRef({refName: 'newField', value: 'funny'})
+        assert.simulateEvent({
+          selector: '.new-todo', 
+          simulateArgs: [
+            'keydown', 
+            {which: 13, target: {value: 'hello'}}
+          ]
+        })
+        assert.refHasValue({refName: 'newField', value: ''})
+
+      })
+    })
   })
 
   describe('callbacks', () => {
-    describe('input field', () => {
-      describe('when onKeyDown event then ENTER key', () => {
+    describe('input component', () => {
+      describe('when onKeyDown event with ENTER key', () => {
         it('should call handleSave callback', () => {
           const eventData = {which: 13, target: {value: 'hello'}}
           assert.simulateEvent({selector: '.new-todo', simulateArgs: ['keydown', eventData]})
@@ -49,8 +63,8 @@ describe('Entry Component', (Component = Entry) => {
   })
 
   describe('props passed to components', () => {
-    describe('input', () => {
-      it('should pass text to type prop', () => {
+    describe('input component', () => {
+      it('should set type prop to `text`', () => {
         assert.hasChildWithProp({
           selector: 'input',
           prop: 'type',
@@ -58,7 +72,7 @@ describe('Entry Component', (Component = Entry) => {
         })
       })
 
-      it('should pass "What needs to be done?" to placeholder prop', () => {
+      it('should set placeholder prop to `What needs to be done?`', () => {
         assert.hasChildWithProp({
           selector: 'input',
           prop: 'placeholder',
@@ -66,7 +80,7 @@ describe('Entry Component', (Component = Entry) => {
         })
       })
 
-      it('should pass handleKeyDown method to onKeyDown prop', () => {
+      it('should set onKeyDown prop to `handleKeyDown method`', () => {
         assert.hasChildWithProp({
           selector: 'input',
           prop: 'onKeyDown',

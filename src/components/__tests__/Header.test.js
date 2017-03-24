@@ -57,9 +57,9 @@ fdescribe('Header Component', (Component = Header) => {
     })
   })
 
-  describe('props passed to', () => {
+  describe('props passed to components', () => {
     describe('Entry component', () => {
-      it('should pass handleSave method to handleSave prop', () => {
+      it('should set handleSave prop to `handleSave method`', () => {
         assert.hasChildWithProp({
           selector: Entry,
           prop: 'handleSave',
