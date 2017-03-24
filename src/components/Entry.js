@@ -26,8 +26,8 @@ export default class Entry extends Component {
   handleKeyDown = (event) => {
     if (event.which === ENTER_KEY) {
       event.preventDefault()
-      const node = ReactDOM.findDOMNode(this.refs.newField)
       this.props.handleSave(event.target.value.trim())
+      const node = ReactDOM.findDOMNode(this.refs.newField)
       node.value = ''
     }
   }
